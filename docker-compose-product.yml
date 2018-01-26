@@ -1,0 +1,81 @@
+version: "3.2"
+
+services:
+  mongo:
+    build: ./docker/mongo
+    image: mongo:v1
+    container_name: mongo
+    ports:
+      - 27017:27017
+    healthcheck:
+      test: exit 0
+
+  mysql:
+    build: ./docker/mysql
+    image: mysql:v1
+    container_name: mysql
+    ports:
+      - 3306:3306
+    healthcheck:
+      test: exit 0
+
+  redis:
+    build: ./docker/redis
+    image: redis:v1
+    container_name: redis
+    ports:
+      - 6379:6379
+    healthcheck:
+      test: exit 0
+
+  emqtt:
+    build: ./docker/emqtt
+    image: emqtt:v1
+    container_name: emqtt
+    ports:
+      - 18083:18083
+      - 1883:1883
+    depends_on:
+      mysql:
+        condition: service_healthy
+    links:
+      - mysql
+
+
+  celery:
+    build: ./docker/celery
+    image: celery:v1
+    container_name: celery
+    volumes:
+      - ./celery/:/opt/spider
+    depends_on:
+      redis:
+        condition: service_healthy
+    links:
+      - redis
+
+  web_server:
+    build: ./docker/tornado
+    image: web_server:v1
+    container_name: web_server
+    ports:
+      - 7000:7000
+    volumes:
+    - ./server/live_version/:/home/code/
+    depends_on:
+      mongo:
+        condition: service_healthy
+    links:
+      - mongo
+
+  nginx:
+    build: ./docker/nginx
+    image: nginx:v1
+    container_name: nginx
+    ports:
+      - 80:80
+    depends_on:
+      web_server:
+        condition: service_started
+    links:
+      - web_server

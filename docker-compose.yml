@@ -1,0 +1,11 @@
+version: "3.2"
+
+services:
+  web_server:
+    build: ./docker/tornado
+    image: web_server:v1
+    container_name: web_server
+    ports:
+      - 7000:7000
+    volumes:
+    - ./server/live_version/:/home/code/

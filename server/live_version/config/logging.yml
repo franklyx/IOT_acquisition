@@ -1,0 +1,84 @@
+version: 1
+
+rotating_handler_common: &rotating_handler_common
+    class: logging.handlers.RotatingFileHandler
+    formatter: precise
+    mode: "a"
+    maxBytes: 1024*1024
+    encoding: utf8
+
+formatters:
+    simple:
+        format: "[%(asctime)s %(levelname)s %(filename)s %(funcName)s %(lineno)d] %(message)s"
+        datefmt: "%Y-%m-%d %H:%M:%S"
+    tornado:
+        format: "[%(levelname)1.1s %(asctime)s %(module)s:%(lineno)d] %(message)s"
+        datefmt: "%Y-%m-%d %H:%M:%S"
+    precise:
+        format: "[%(asctime)s %(levelname)s %(process)d %(processName)s %(thread)d %(threadName)s %(filename)s %(funcName)s %(lineno)d] %(message)s"
+        datefmt: "%Y-%m-%d %H:%M:%S"
+
+handlers:
+    fatal:
+        level: CRITICAL
+        filename: "/home/logs/fatal.log"
+        backupCount: 30
+        <<: *rotating_handler_common
+    error:
+        level: ERROR
+        filename: "/home/logs/info.log"
+        backupCount: 30
+        <<: *rotating_handler_common
+    debug:
+        level: DEBUG
+        filename: "/home/logs/debug.log"
+        backupCount: 30
+        <<: *rotating_handler_common
+    api:
+        level: INFO
+        filename: "/home/logs/api.log"
+        backupCount: 30
+        <<: *rotating_handler_common
+    flow:
+        level: INFO
+        filename: "/home/logs/flow.log"
+        backupCount: 30
+        <<: *rotating_handler_common
+        formatter: simple
+    info:
+        level: INFO
+        filename: "/home/logs/info.log"
+        backupCount: 30
+        <<: *rotating_handler_common
+        formatter: simple
+    tornado:
+        <<: *rotating_handler_common
+        level: DEBUG
+        filename: "/home/logs/tornado.log"
+        backupCount: 30
+        formatter: tornado
+
+loggers:
+    spider_debug:
+        level: DEBUG
+        handlers: [debug]
+    spider_error:
+        level: ERROR
+        handlers: [error]
+    spider_fatal:
+        handlers: [fatal]
+    spider_api:
+        handlers: [api]
+    spider_flow:
+        handlers: [flow]
+    tornado:
+        handlers: [tornado]
+    tornado.access:
+        handlers: [tornado]
+    tornado.application:
+        handlers: [tornado]
+    tornado.general:
+        handlers: [tornado]
+
+root:
+    handlers: [tornado]

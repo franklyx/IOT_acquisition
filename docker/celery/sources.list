@@ -1,0 +1,2 @@
+#deb http://ftp.cn.debian.org/debian/ jessie main contrib non-free
+deb http://mirror.ikeda.tm/debian/ jessie main 

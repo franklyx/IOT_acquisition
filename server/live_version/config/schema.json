@@ -1,0 +1,95 @@
+{
+    "title": "设备数据包",
+    "description": "从机器采集的数据",
+    "type": "object",
+    "properties": {
+    "Timestamp": {
+        "type": "string",
+        "format": "datetime_string"
+    },
+    "ManufacturingCode":{
+        "type": "string"
+    },
+    "ManufacturingDate":{
+        "type": "string",
+        "format": "date_string"
+    },
+    "ProductModel":{
+        "type": "string"
+    },
+    "State":{
+        "type": "number",
+        "enum": [1, 2, 3]
+    },
+    "PhaseVoltageInput":{
+        "type": "number"
+    },
+    "LineVin":{
+        "type": ["number", "null"]
+    },
+    "LineIin":{
+        "type": ["number", "null"]
+    },
+    "PhaseVinAB":{
+        "type": ["number", "null"]
+    },
+    "PhaseVinBC":{
+        "type": ["number", "null"]
+    },
+    "PhaseVinCA":{
+        "type": ["number", "null"]
+    },
+    "PhaseIinAB":{
+        "type": ["number", "null"]
+    },
+    "PhaseIinBC":{
+        "type": ["number", "null"]
+    },
+    "PhaseIinCA":{
+        "type": ["number", "null"]
+    },
+    "InputPower":{
+        "type": "number"
+    },
+    "DCVout":{
+        "type": "number"
+    },
+    "DCIout":{
+        "type": "number"
+    },
+    "OutputPower":{
+        "type": "number"
+    },
+    "EfficiencyRatio":{
+        "type": "number"
+    },
+    "GasFlow":{
+        "type": "number"
+    },
+    "Temperature1":{
+        "type": "number"
+    },
+    "Temperature2":{
+        "type": "number"
+    },
+    "OCAlarm":{
+        "type": "number",
+        "enum": [0, 1]
+    },
+    "OVAlarm":{
+        "type": "number",
+        "enum": [0, 1]
+    },
+    "AlarmCode":{
+        "type": ["array", "string", "null"],
+        "items": {
+            "type": ["string", "number"]
+        }
+    }
+    },
+    "required": ["Timestamp", "ManufacturingCode", "ManufacturingDate",
+                 "ProductModel", "State", "PhaseVoltageInput", "InputPower",
+                 "DCVout", "DCIout", "OutputPower", "EfficiencyRatio",
+                 "GasFlow", "Temperature1", "Temperature2", "OCAlarm", "OVAlarm"
+    ]
+}
