@@ -5,7 +5,11 @@ services:
     build: ./docker/tornado
     image: web_server:v1
     container_name: web_server
+    tty: true
     ports:
       - 7000:7000
     volumes:
     - ./server/live_version/:/home/code/
+    - ./web/live-version/dist/static:/home/code/static
+    - ./web/live-version/dist/index.html:/home/code/template/index.html
+

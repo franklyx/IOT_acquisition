@@ -1,0 +1,5 @@
+export const SET_USERINFO = 'SET_USERINFO'
+export const SET_ROLE = 'SET_ROLE'
+export const SET_TOKEN = 'SET_TOKEN'
+export const SET_USER = 'SET_USER'
+export const SET_FACTORY_ID = 'SET_FACTORY_ID'

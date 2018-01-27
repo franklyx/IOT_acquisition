@@ -1,6 +1,6 @@
 # 开启MongoDB服务
 
-FROM python:latest
+FROM python:2.7.14-slim-stretch
 MAINTAINER YuexLi
 
 ENV LANG en_US.UTF-8
@@ -10,7 +10,7 @@ COPY resolv.conf /etc/resolv.conf
 COPY sources.list /etc/apt/sources.list
 
 # 创建程序运行空间
-RUN mkdir -p /home/code
+RUN mkdir -p /home/code/template
 WORKDIR /home/code
 
 # 安装依赖

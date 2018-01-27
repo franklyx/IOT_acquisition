@@ -54,7 +54,23 @@ services:
     links:
       - redis
 
-  web_server:
+  web_server_head:
+    build: ./docker/tornado
+    image: web_server:v1
+    container_name: web_server
+    ports:
+      - 8000:8000
+    volumes:
+    - ./server/headquaraters_version/:/home/code/
+    - ./web/headquaraters_version/dist/static:/home/code/static
+    - ./web/headquaraters_version/dist/index.html:/home/code/template/index.html
+    depends_on:
+      mongo:
+        condition: service_healthy
+    links:
+      - mongo
+
+  web_server_live:
     build: ./docker/tornado
     image: web_server:v1
     container_name: web_server
@@ -62,6 +78,8 @@ services:
       - 7000:7000
     volumes:
     - ./server/live_version/:/home/code/
+    - ./web/live-version/dist/static:/home/code/static
+    - ./web/live-version/dist/index.html:/home/code/template/index.html
     depends_on:
       mongo:
         condition: service_healthy
@@ -75,7 +93,10 @@ services:
     ports:
       - 80:80
     depends_on:
-      web_server:
-        condition: service_started
+      - web_server_head:
+         condition: service_started
+      - web_server_live:
+         condition: service_started
     links:
-      - web_server
+      - web_server_live
+      - web_server_head
